@@ -286,10 +286,24 @@ var T2M = (function () {
 					info_hash, link, list1, list2, val, i, j;
 
 				// Hash
+			        var digest_to_hex = function (digest) {
+					// String build
+					var s = [],
+						c, i;
+					for (i = 0; i < digest.length; ++i) {
+						if (i > 0) s.push("");
+						c = digest[i].toString(16).toUpperCase();
+						if (c.length < 2) s.push("0");
+						s.push(c);
+					}
+					return s.join("");
+				};
+
 				info_hasher.update(info_bencoded);
 				info_hash = info_hasher.digest();
-				info_hash = String.fromCharCode.apply(null, info_hash); // convert to binary string
-				info_hash = Base32.encode(info_hash); // convert to base32
+				info_hash = digest_to_hex(info_hash);
+				// info_hash = String.fromCharCode.apply(null, info_hash); // convert to binary string
+				// info_hash = Base32.encode(info_hash); // convert to base32
 
 				// Setup link
 				for (i = 0; i < magnet_component_order_default.length; ++i) {
